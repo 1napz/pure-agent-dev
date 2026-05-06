@@ -1,0 +1,40 @@
+# clickup-template-request.yaml
+template_name: "Feature Request Template"
+description: "Template สำหรับการส่ง Feature Request หรือ Optimization Prompt ใน CrystalCastle"
+status_flow:
+  - Assigned
+  - In Progress
+  - Feedback
+  - Completed
+
+custom_fields:
+  - name: "Feature Goal"
+    type: "text"
+    description: "เป้าหมายของฟีเจอร์ เช่น Optimize AI Prompt Efficiency"
+  - name: "Context"
+    type: "long_text"
+    description: "อธิบายว่าทำไมถึงต้องการฟีเจอร์นี้"
+  - name: "Expected Output"
+    type: "text"
+    description: "ผลลัพธ์ที่ต้องการ เช่น Improved Prompt Performance"
+  - name: "Dependencies"
+    type: "task_relation"
+    description: "เชื่อมกับงานอื่นที่เกี่ยวข้อง"
+  - name: "Agent Feedback"
+    type: "comment"
+    description: "ช่องให้ Reviewer หรือ Agent เขียนข้อเสนอแนะ"
+  - name: "Follow-up Requirement"
+    type: "long_text"
+    description: "สิ่งที่ requester ต้องการปรับปรุงเพิ่มเติม"
+
+automation_rules:
+  - trigger: "status_changed_to_Feedback"
+    action: "notify_requester"
+    message: "Agent ได้ให้ Feedback แล้ว กรุณาตรวจสอบและตอบกลับ"
+  - trigger: "follow_up_requirement_filled"
+    action: "create_subtask"
+    subtask_title: "Revision Request"
+    status: "Assigned"
+  - trigger: "subtask_completed"
+    action: "update_status"
+    new_status: "Completed"
