@@ -1,0 +1,21 @@
+name: Product Link Checker
+on:
+schedule:
+- cron: '*/30 * * * *' # รันทุก 30 นาที (ปรับเปลี่ยนได้ตามต้องการ)
+workflow_dispatch: # กดรันเองได้จากหน้าเว็บ
+
+jobs:
+check:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v2
+- name: Set up Python
+uses: actions/setup-python@v2
+with:
+python-version: '3.9'
+- name: Install dependencies
+run: pip install -r requirements.txt
+- name: Run Script
+env:
+SHOP_TOKEN: ${{ secrets.MY_LINE_KEY }} # ต้องตรงกับชื่อใน GitHub Secrets
+run: python main.py
