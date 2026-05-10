@@ -9,10 +9,6 @@ reviewers:
       - security
       - performance
 
-# กำหนดไฟล์หรือโฟลเดอร์ที่ต้องการ ignore ไม่ให้รีวิว
-ignore:
-  - "docs/**"
-  - "tests/mocks/**"
 
 # ระดับความเข้มงวดของการรีวิว
 severity:
