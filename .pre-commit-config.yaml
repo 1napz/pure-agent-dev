@@ -1,0 +1,48 @@
+repos:
+  # Basic Git hooks (ตรวจสอบพื้นฐาน)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files     # ห้าม commit ไฟล์ใหญ่
+        args: ['--maxkb=500']
+      - id: check-merge-conflict        # ตรวจสอบ conflict
+      - id: check-yaml                  # ตรวจ YAML (Workflows)
+      - id: end-of-file-fixer           # แก้ไขบรรทัดสุดท้าย
+      - id: trailing-whitespace         # ลบช่องว่างท้ายบรรทัด
+      - id: mixed-line-ending
+      - id: no-commit-to-branch         # ห้าม commit ตรง main
+        args: [--branch, main]
+
+  # Python Code Formatter + Linter (Ruff - แนะนำที่สุดในปี 2026)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.0
+    hooks:
+      - id: ruff-format                 # Format code (แทน Black)
+        files: ^scripts/.*\.py$
+      - id: ruff                        # Lint + Fix issues
+        args: [--fix]
+        files: ^scripts/.*\.py$
+
+  # Sort imports
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        files: ^scripts/.*\.py$
+
+  # Security check (optional แต่แนะนำ)
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.3
+    hooks:
+      - id: bandit
+        args: ["-q", "--skip=B101"]     # B101 = assert used (ไม่เป็นปัญหาใน script)
+        files: ^scripts/.*\.py$
+
+  # YAML + JSON formatter
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        files: \.(yaml|yml|json|md)$
+        additional_dependencies:
+          - prettier@3.5.0
